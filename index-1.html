@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1456A0">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><title>Maharani Zaika Restaurant &amp; Cafe</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#fff;--bg2:#F7F9FC;--blue:#1456A0;--btn:#1769D2;--tx:#202124;--tx2:#667085;--bd:#E5E7EB;--ok:#16803D;--err:#D92D20;--sh:0 2px 10px rgba(20,86,160,.08);box-sizing:border-box;color-scheme:light}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:128px}
+body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:var(--bg);color:var(--tx);padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input,select,textarea{font:inherit;width:100%;padding:11px 12px;border:1px solid var(--bd);border-radius:10px;background:#fff;color:var(--tx)}
+:focus-visible{outline:2px solid var(--btn);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:#fff;border-bottom:1px solid var(--bd)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:12px 0 8px}
+.logo{font-weight:800;font-size:19px;color:var(--blue);letter-spacing:-.3px;line-height:1.1}
+.logo small{display:block;font-size:11px;font-weight:600;color:var(--tx2);letter-spacing:0}
+.callbtn{font-size:13px;font-weight:700;color:var(--btn);padding:8px 12px;border-radius:20px;background:var(--bg2);text-decoration:none}
+.search{position:relative;padding-bottom:12px}
+.search input{padding-left:38px;background:var(--bg2);border-radius:12px}
+.search span{position:absolute;left:12px;top:10px}
+.modes{display:flex;gap:8px;padding:14px 0 4px}
+.modes button{flex:1;padding:10px 6px;border-radius:12px;border:1px solid var(--bd);font-weight:700;font-size:13px;background:#fff}
+.modes button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.banner{margin:12px 0;border-radius:18px;padding:22px 20px;color:#fff;background:linear-gradient(120deg,#1456A0,#1769D2);box-shadow:var(--sh)}
+.banner h1{font-size:23px;line-height:1.2;letter-spacing:-.4px}
+.banner p{margin:6px 0 14px;opacity:.9;font-size:14px}
+.banner button{background:#fff;color:var(--blue);font-weight:800;padding:10px 18px;border-radius:10px}
+h2{font-size:18px;margin:22px 0 10px;letter-spacing:-.2px}
+.cats{display:flex;gap:14px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.cat{flex:0 0 auto;text-align:center;width:72px;font-size:12px;font-weight:600;color:var(--tx2)}
+.cat i{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 6px;border-radius:50%;background:var(--bg2);border:2px solid transparent;font-size:30px;font-style:normal}
+.cat.on i{border-color:var(--btn)}.cat.on{color:var(--blue)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}
+.chip{flex:0 0 auto;padding:7px 13px;border:1px solid var(--bd);border-radius:20px;font-size:13px;font-weight:600;background:#fff}
+.chip.on{background:#EAF2FC;border-color:var(--btn);color:var(--blue)}
+.item{display:flex;gap:14px;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--bd)}
+.item.off{opacity:.5}
+.veg{display:inline-block;width:14px;height:14px;border:1.5px solid var(--ok);border-radius:3px;position:relative;vertical-align:-2px;margin-right:6px}
+.veg:after{content:"";position:absolute;inset:2.5px;border-radius:50%;background:var(--ok)}
+.item h3{font-size:16px;font-weight:700;display:inline}
+.price{font-weight:700;margin:4px 0}
+.meta{font-size:12px;color:var(--tx2)}
+.desc{font-size:13px;color:var(--tx2);margin-top:6px;line-height:1.45}
+.pic{position:relative;flex:0 0 118px;text-align:center}
+.pic .img{height:110px;border-radius:14px;display:grid;place-items:center;font-size:52px;background:linear-gradient(135deg,#EAF2FC,#F7F9FC);box-shadow:var(--sh)}
+.add{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);min-width:92px;height:34px;border-radius:10px;background:#fff;border:1px solid var(--bd);color:var(--btn);font-weight:800;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center}
+.add.q{background:var(--btn);color:#fff;border-color:var(--btn);justify-content:space-between;padding:0 4px}
+.add.q b{padding:0 10px;font-size:18px}
+.demo{background:#EAF2FC;color:var(--blue);font-size:12px;padding:8px 12px;border-radius:10px;margin:8px 0}
+.cartbar{position:fixed;left:12px;right:12px;bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:30;max-width:736px;margin:auto;background:var(--btn);color:#fff;border-radius:14px;padding:14px 16px;display:none;justify-content:space-between;align-items:center;font-weight:700;box-shadow:0 6px 20px rgba(23,105,210,.35)}
+.cartbar.show{display:flex}
+nav.bn{position:fixed;bottom:0;left:0;right:0;z-index:40;background:#fff;border-top:1px solid var(--bd);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.bn button{flex:1;padding:8px 0;font-size:11px;font-weight:600;color:var(--tx2);display:grid;gap:2px;justify-items:center}
+nav.bn button span{font-size:20px}nav.bn button.on{color:var(--btn)}
+.sheet{position:fixed;inset:0;z-index:60;background:rgba(32,33,36,.45);display:none;align-items:flex-end}
+.sheet.show{display:flex}
+.panel{background:#fff;width:100%;max-width:760px;margin:auto;max-height:92%;overflow:auto;border-radius:20px 20px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+.panel h2{margin-top:0}
+.row{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:14px}
+.row.t{font-weight:800;border-top:1px dashed var(--bd);margin-top:6px;padding-top:12px;font-size:16px}
+.cta{width:100%;background:var(--btn);color:#fff;font-weight:800;padding:14px;border-radius:12px;margin-top:12px}
+.cta:disabled{background:#9DB9DE}
+.err{color:var(--err);font-size:13px;margin-top:6px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--sh)}
+.steps{display:flex;gap:4px;margin-top:10px}
+.steps i{flex:1;height:5px;border-radius:3px;background:var(--bd)}.steps i.d{background:var(--ok)}
+.pill{font-size:12px;font-weight:700;color:var(--ok);background:#E7F5EC;padding:3px 10px;border-radius:20px}
+label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+.view{display:none}.view.on{display:block}
+footer{background:#1456A0;color:#fff;padding:28px 0 20px;margin-top:30px}
+footer .wrap{display:grid;gap:18px}
+footer h4{font-size:16px;margin-bottom:6px}footer p,footer a{color:#fff;font-size:13px;line-height:1.7;text-decoration:none;display:block;opacity:.95}
+footer svg{width:15px;height:15px;fill:#fff;vertical-align:-2px;margin-right:8px}
+.links{display:grid;grid-template-columns:1fr 1fr}
+@media(prefers-reduced-motion:no-preference){.add,.chip,.cat i{transition:all .15s}.panel{animation:up .22s ease-out}@keyframes up{from{transform:translateY(30px);opacity:.6}}}
+</style></head><body>
+<header><div class="wrap">
+<div class="top"><div class="logo">Maharani Zaika<small>Restaurant &amp; Cafe · Medical Chauraha, Prayagraj</small></div><a class="callbtn" href="tel:+917080811111">Call</a></div>
+<div class="search"><span>🔍</span><input id="q" type="search" placeholder="Search dosa, paneer, pizza…" aria-label="Search dishes"></div>
+</div></header>
+
+<main class="wrap">
+<section class="view on" id="v-home">
+<div class="modes" id="modes"><button class="on" data-m="Delivery">🛵 Delivery</button><button data-m="Takeaway">🛍️ Takeaway</button><button data-m="Dine-in">🍽️ Dine-in</button></div>
+<div class="banner"><h1>Pure veg. Fresh from the Maharani kitchen.</h1><p>Order directly from the restaurant. No middlemen.</p><button onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Order now</button></div>
+<div class="demo" id="demo">Demo menu: dishes and prices below are sample data, not the restaurant's verified menu.</div>
+<h2>What are you craving?</h2><div class="cats" id="cats"></div>
+<h2 id="menu">Menu</h2>
+<div class="chips" id="chips"><button class="chip" data-f="veg">Veg</button><button class="chip" data-f="pop">Popular</button><button class="chip" data-f="new">New</button><button class="chip" data-f="u150">Under ₹150</button></div>
+<div id="list"></div>
+</section>
+
+<section class="view" id="v-orders"><h2>My orders</h2><div id="orders"></div></section>
+
+<section class="view" id="v-book"><h2>Table booking</h2>
+<div class="card"><label for="bd">Date</label><input type="date" id="bd">
+<label for="bt">Time slot</label><select id="bt"><option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option><option>7:00 PM</option><option>8:00 PM</option><option>9:00 PM</option></select>
+<label for="bg">Guests</label><select id="bg"></select>
+<label for="bn">Name</label><input id="bn" autocomplete="name"><label for="bp">Phone</label><input id="bp" inputmode="tel" autocomplete="tel">
+<label for="bs">Special requests</label><textarea id="bs" rows="2"></textarea>
+<div class="err" id="berr"></div><button class="cta" onclick="book()">Request booking</button></div>
+<div id="books"></div></section>
+
+<section class="view" id="v-prof"><h2>Profile</h2><div class="card"><b>Install the app</b><p class="meta" style="margin:6px 0 10px;line-height:1.5" id="inst">Android (Chrome): menu ⋮ → Install app / Add to Home screen.<br>iPhone (Safari): Share → Add to Home Screen.</p><button class="cta" id="instb" style="display:none">Install app</button></div><div class="card"><p style="font-size:14px;line-height:1.6">Login, saved addresses and favourites arrive with the Supabase backend. For now you can order as a guest.</p></div></section>
+</main>
+
+<div class="cartbar" id="cartbar" onclick="openCart()"><span id="cbn"></span><span id="cbt"></span></div>
+
+<footer><div class="wrap">
+<div><h4>Maharani Zaika Restaurant &amp; Cafe</h4>
+<p><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.500a2.500 2.500 0 0 1 0 5z"/></svg>Mahatma Gandhi Marg, Medical Chauraha, Prayagraj, UP 211002</p>
+<p><svg viewBox="0 0 24 24"><path d="M6.600 10.800a15 15 0 0 0 6.600 6.600l2.200-2.200a1 1 0 0 1 1-.25 11 11 0 0 0 3.600.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.500a1 1 0 0 1 1 1c0 1.200.2 2.400.6 3.600a1 1 0 0 1-.25 1z"/></svg><a style="display:inline" href="tel:+917080811111">+91 70808 11111</a></p>
+<p><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 11h-5V7h2v4h3z"/></svg>Opening hours: to be confirmed by the restaurant</p></div>
+<div class="links"><a href="#" onclick="go('home');return false">Home</a><a href="#" onclick="go('home');return false">Menu</a><a href="#" onclick="go('orders');return false">My Orders</a><a href="#" onclick="go('book');return false">Table Booking</a><a href="tel:+917080811111">Contact Us</a><a href="#" onclick="alert('Policy text to be supplied by the restaurant.');return false">Privacy Policy</a><a href="#" onclick="alert('Policy text to be supplied by the restaurant.');return false">Terms and Conditions</a><a href="#" onclick="alert('Policy text to be supplied by the restaurant.');return false">Refund and Cancellation</a></div>
+</div></footer>
+
+<nav class="bn" id="bn"><button class="on" data-v="home"><span>🏠</span>Home</button><button data-v="home2"><span>📖</span>Menu</button><button data-v="orders"><span>🧾</span>Orders</button><button data-v="book"><span>📅</span>Bookings</button><button data-v="prof"><span>👤</span>Profile</button></nav>
+
+<div class="sheet" id="sheet" onclick="if(event.target===this)closeSheet()"><div class="panel" id="panel"></div></div>
+
+<script>
+const SB={url:"https://isjhwsccgonhjelbbxpi.supabase.co",key:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlzamh3c2NjZ29uaGplbGJieHBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyMDcyMjQsImV4cCI6MjEwODc4MzIyNH0.TAOZMdkqIv4ePNj4Ltf0VkLujIkgNdeMhgPD37bY9JM"}; // public anon key; safe because RLS protects data
+const CATS=[["🥞","South Indian"],["🍛","North Indian"],["🍜","Chinese"],["🍕","Pizza & Pasta"],["🍔","Burgers"],["🍚","Rice & Biryani"],["🥤","Beverages"],["🍰","Desserts"]];
+// Sample data only. Not the restaurant's verified menu or prices.
+let D=[
+["Masala Dosa","South Indian","🥞",99,"Crisp rice crepe with spiced potato filling, sambar and chutneys.",15,1,1,0],
+["Idli Sambar","South Indian","🍚",69,"Steamed rice cakes with sambar and coconut chutney.",10,1,0,0],
+["Vada Sambar","South Indian","🍩",79,"Crisp lentil fritters dunked in sambar.",10,1,0,0],
+["Onion Uttapam","South Indian","🥞",109,"Thick rice pancake topped with onion and chillies.",15,1,0,1],
+["Paneer Butter Masala","North Indian","🍛",189,"Paneer in a creamy tomato gravy.",20,1,1,0],
+["Shahi Paneer","North Indian","🍛",199,"Rich cashew and cream gravy with paneer cubes.",20,1,0,0],
+["Veg Fried Rice","Chinese","🍚",129,"Wok-tossed rice with vegetables.",15,1,0,0],
+["Hakka Noodles","Chinese","🍜",129,"Stir-fried noodles with crunchy vegetables.",15,1,1,0],
+["Margherita Pizza","Pizza & Pasta","🍕",179,"Classic tomato and mozzarella.",20,1,1,0],
+["Farmhouse Pizza","Pizza & Pasta","🍕",249,"Loaded with capsicum, onion, corn and mushroom.",20,1,0,1],
+["Veg Burger","Burgers","🍔",89,"Crisp veg patty with fresh salad and sauce.",12,1,0,0],
+["Veg Biryani","Rice & Biryani","🍛",159,"Fragrant basmati layered with vegetables.",25,1,0,0],
+["Cold Coffee","Beverages","🥤",99,"Chilled and creamy.",5,1,1,0],
+["Masala Chai","Beverages","☕",29,"Fresh kadak chai.",5,1,0,0],
+["Brownie","Desserts","🍰",89,"Fudgy chocolate brownie.",5,0,0,1]
+].map((r,i)=>({id:i,n:r[0],c:r[1],e:r[2],p:r[3],d:r[4],t:r[5],a:!!r[6],pop:!!r[7],nw:!!r[8]}));
+const $=s=>document.querySelector(s);
+const inr=n=>"₹"+n.toLocaleString("en-IN");
+let st={cat:null,f:new Set(),q:"",mode:"Delivery",cart:{},orders:[],books:[]};
+function render(){
+ const q=st.q.toLowerCase();
+ const L=D.filter(x=>(!st.cat||x.c===st.cat)&&(!q||(x.n+x.c+x.d).toLowerCase().includes(q))&&(!st.f.has("pop")||x.pop)&&(!st.f.has("new")||x.nw)&&(!st.f.has("u150")||x.p<150));
+ $("#list").innerHTML=L.length?L.map(x=>{const n=st.cart[x.id]||0;
+  return `<div class="item ${x.a?"":"off"}"><div><span class="veg" title="Vegetarian"></span><h3>${x.n}</h3><div class="price">${inr(x.p)}</div><div class="meta">${x.c} · ${x.t} min</div><div class="desc">${x.d}</div></div><div class="pic"><div class="img">${x.e}</div>${!x.a?'<div class="add">Sold out</div>':n?`<div class="add q"><b onclick="chg(${x.id},-1)" role="button" aria-label="Remove one">−</b>${n}<b onclick="chg(${x.id},1)" role="button" aria-label="Add one">+</b></div>`:`<button class="add" onclick="chg(${x.id},1)">ADD</button>`}</div></div>`}).join(""):'<p class="meta" style="padding:24px 0">No dishes match. Try another search or clear the filters.</p>';
+ $("#cats").innerHTML=CATS.map(c=>`<button class="cat ${st.cat===c[1]?"on":""}" onclick="setCat('${c[1]}')"><i>${c[0]}</i>${c[1]}</button>`).join("");
+ document.querySelectorAll("#chips .chip").forEach(b=>b.classList.toggle("on",st.f.has(b.dataset.f)));
+ const cnt=Object.values(st.cart).reduce((a,b)=>a+b,0),sub=sum();
+ $("#cartbar").classList.toggle("show",cnt>0);$("#cbn").textContent=cnt+(cnt>1?" items":" item");$("#cbt").textContent=inr(sub)+"  ·  View cart";
+}
+function setCat(c){st.cat=st.cat===c?null:c;render();document.getElementById("menu").scrollIntoView({behavior:"smooth"})}
+function chg(id,d){const n=(st.cart[id]||0)+d;if(n<=0)delete st.cart[id];else st.cart[id]=Math.min(n,20);render();if($("#sheet").classList.contains("show"))openCart()}
+const sum=()=>Object.entries(st.cart).reduce((a,[i,n])=>a+D[i].p*n,0);
+let MIN=149,FEE=30,FREE=500,LIVE=false;
+const H=()=>({apikey:SB.key,Authorization:"Bearer "+SB.key,"Content-Type":"application/json"});
+function bill(){const s=sum(),gst=Math.round(s*.05),fee=st.mode==="Delivery"&&s>0?(s>=FREE?0:FEE):0;return{s,gst,fee,t:s+gst+fee}}
+function openCart(){
+ const b=bill(),items=Object.entries(st.cart);
+ $("#panel").innerHTML=`<h2>Your cart</h2>`+(items.length?items.map(([i,n])=>`<div class="row"><span><span class="veg"></span>${D[i].n}</span><span><button class="chip" onclick="chg(${i},-1)" aria-label="Less">−</button> ${n} <button class="chip" onclick="chg(${i},1)" aria-label="More">+</button> ${inr(D[i].p*n)}</span></div>`).join("")+
+ `<label for="ci">Cooking instructions</label><input id="ci" placeholder="Less spicy, no onion…">
+ <div class="row"><span>Order type</span><b>${st.mode}</b></div>
+ <div class="row"><span>Item total</span><span>${inr(b.s)}</span></div><div class="row"><span>GST (5%, demo)</span><span>${inr(b.gst)}</span></div>${st.mode==="Delivery"?`<div class="row"><span>Delivery fee (demo)</span><span>${b.fee?inr(b.fee):"Free"}</span></div>`:""}
+ <div class="row t"><span>To pay</span><span>${inr(b.t)}</span></div>
+ <label for="cn">Name</label><input id="cn" autocomplete="name"><label for="cp">Phone</label><input id="cp" inputmode="tel" autocomplete="tel">
+ ${st.mode==="Delivery"?`<label for="ca">Delivery address</label><textarea id="ca" rows="2" autocomplete="street-address"></textarea>`:""}
+ ${st.mode==="Dine-in"?(LIVE?`<p class="meta">Dine-in orders work by scanning the QR code on your table.</p>`:`<label for="ct">Table number</label><input id="ct" inputmode="numeric">`):""}
+ <label for="cm">Payment</label><select id="cm"><option>Cash on ${st.mode==="Delivery"?"Delivery":"Pickup"}</option><option disabled>UPI / online (needs payment gateway)</option></select>
+ <div class="err" id="cerr"></div><button class="cta" onclick="place()">Place order · ${inr(b.t)}</button><p class="meta" style="margin-top:8px">${LIVE?"The final total is confirmed by the restaurant system when you place the order.":"Demo mode: orders are not sent to the restaurant."}</p>`
+ :'<p class="meta">Your cart is empty. Add something tasty from the menu.</p>')+`<button class="chip" style="margin-top:12px" onclick="closeSheet()">Close</button>`;
+ $("#sheet").classList.add("show")}
+function closeSheet(){$("#sheet").classList.remove("show")}
+const TYPE={"Delivery":"delivery","Takeaway":"takeaway","Dine-in":"dine_in"};
+async function place(){
+ const b=bill(),nm=$("#cn").value.trim(),ph=$("#cp").value.trim().replace(/[\s+-]|^91/g,""),e=$("#cerr"),tok=new URLSearchParams(location.search).get("t");
+ if(b.s<MIN)return e.textContent="Minimum order is "+inr(MIN)+". Add "+inr(MIN-b.s)+" more.";
+ if(nm.length<2)return e.textContent="Enter your name.";
+ if(!/^[6-9]\d{9}$/.test(ph))return e.textContent="Enter a valid 10-digit mobile number.";
+ if(st.mode==="Delivery"&&$("#ca").value.trim().length<8)return e.textContent="Enter your full delivery address.";
+ if(st.mode==="Dine-in"){if(LIVE&&!tok)return e.textContent="Scan the QR code on your table to order dine-in.";if(!LIVE&&!/^\d{1,3}$/.test($("#ct").value.trim()))return e.textContent="Enter your table number."}
+ const btn=$("#panel .cta");btn.disabled=true;btn.textContent="Placing order…";e.textContent="";
+ const o={mode:st.mode,items:Object.entries(st.cart).map(([i,n])=>n+" × "+D[i].n),total:b.t,pay:"Cash",step:0,at:new Date().toLocaleString("en-IN"),ph};
+ if(LIVE){
+  try{const r=await fetch(SB.url+"/rest/v1/rpc/place_order",{method:"POST",headers:H(),body:JSON.stringify({p_type:TYPE[st.mode],p_name:nm,p_phone:ph,p_address:st.mode==="Delivery"?$("#ca").value.trim():null,p_notes:$("#ci").value.trim()||null,p_table_token:st.mode==="Dine-in"?tok:null,p_coupon:null,p_items:Object.entries(st.cart).map(([i,n])=>({id:D[i].u,qty:n}))})});
+   const j=await r.json();if(!r.ok)throw new Error(j.message||"Order failed");
+   o.no=j.order_no;o.total=j.total_inr;o.live=true}
+  catch(x){btn.disabled=false;btn.textContent="Place order · "+inr(b.t);return e.textContent="Could not place the order: "+x.message}
+ }else o.no="MZ"+Date.now().toString().slice(-6);
+ st.orders.unshift(o);saveO();st.cart={};render();
+ $("#panel").innerHTML=`<h2>Order placed ✅</h2><p>Order number <b>${o.no}</b></p><p class="meta" style="margin:8px 0">Total ${inr(o.total)}. Pay in cash. ${o.live?"The restaurant has received your order.":"(Demo order, not sent.)"}</p><button class="cta" onclick="closeSheet();go('orders')">Track order</button>`}
+const SM={placed:0,accepted:1,preparing:2,ready:3,out_for_delivery:4,delivered:5};
+function saveO(){try{localStorage.setItem("mzo",JSON.stringify(st.orders.slice(0,20)))}catch(e){}}
+async function refresh(){
+ let ch=false;
+ for(const o of st.orders){if(!o.live||o.cancelled||o.step===5)continue;
+  try{const r=await fetch(SB.url+"/rest/v1/rpc/get_order_status",{method:"POST",headers:H(),body:JSON.stringify({p_order_no:o.no,p_phone:o.ph})});
+   const j=await r.json();const x=Array.isArray(j)?j[0]:null;
+   if(x){const n=x.status==="cancelled";const sp=n?o.step:SM[x.status];if(n!==!!o.cancelled||sp!==o.step){o.cancelled=n;o.step=sp;ch=true}}}catch(e){}}
+ if(ch){saveO();renderOrders()}}
+setInterval(()=>{if($("#v-orders").classList.contains("on"))refresh()},15000);
+async function load(){
+ try{
+  const [p,z]=await Promise.all([fetch(SB.url+"/rest/v1/products?select=id,name,description,price_inr,available,prep_minutes,is_demo,categories(name)&order=name",{headers:H()}),fetch(SB.url+"/rest/v1/delivery_zones?select=fee_inr,min_order_inr",{headers:H()})]);
+  if(!p.ok)throw 0;const rows=await p.json();if(!rows.length)throw 0;
+  const em=Object.fromEntries(CATS.map(c=>[c[1],c[0]]));
+  D=rows.map((r,i)=>{const c=r.categories&&r.categories.name||"Other";return{id:i,u:r.id,n:r.name,c,e:em[c]||"🍽️",p:r.price_inr,d:r.description||"",t:r.prep_minutes||15,a:r.available,pop:false,nw:false,demo:r.is_demo}});
+  const zs=z.ok?await z.json():[];if(zs.length){FEE=Math.min(...zs.map(x=>x.fee_inr));MIN=Math.min(...zs.map(x=>x.min_order_inr));FREE=1e9}
+  LIVE=true;st.f.clear();document.querySelectorAll("#chips [data-f=pop],#chips [data-f=new]").forEach(x=>x.remove());
+  const dm=$("#demo");if(D.some(x=>x.demo))dm.textContent="Demo menu from the database: dishes and prices are sample data, not the restaurant's verified menu.";else dm.style.display="none";
+ }catch(e){$("#demo").textContent+=" Database not connected, showing offline demo."}
+ render()}
+try{st.orders=JSON.parse(localStorage.getItem("mzo")||"[]")}catch(e){}
+const STEPS=["Order Placed","Accepted","Preparing","Ready for Pickup","Out for Delivery","Delivered"];
+function renderOrders(){
+ $("#orders").innerHTML=st.orders.length?st.orders.map(o=>`<div class="card"><div class="row"><b>#${o.no}</b><span class="pill">${o.cancelled?"Cancelled":STEPS[o.step]}</span></div><div class="meta">${o.mode} · ${o.at}</div><div class="desc">${o.items.join(", ")}</div><div class="row t"><span>Total</span><span>${inr(o.total)}</span></div><div class="meta">Payment: ${o.pay}</div><div class="steps">${STEPS.map((_,i)=>`<i class="${i<=o.step?"d":""}"></i>`).join("")}</div></div>`).join(""):'<div class="card"><p class="meta">No orders yet. Your orders will show up here.</p><button class="cta" onclick="go(\'home\')">Browse menu</button></div>'}
+function book(){
+ const d=$("#bd").value,n=$("#bn").value.trim(),p=$("#bp").value.replace(/\D/g,"").slice(-10),e=$("#berr");
+ if(!d||d<new Date().toISOString().slice(0,10))return e.textContent="Pick today or a future date.";
+ if(n.length<2)return e.textContent="Enter your name.";
+ if(!/^[6-9]\d{9}$/.test(p))return e.textContent="Enter a valid 10-digit mobile number.";
+ if(st.books.some(b=>b.d===d&&b.t===$("#bt").value))return e.textContent="That slot is already requested. Choose another time.";
+ e.textContent="";st.books.unshift({d,t:$("#bt").value,g:$("#bg").value,n,s:"Requested"});renderBooks()}
+function renderBooks(){$("#books").innerHTML=st.books.map(b=>`<div class="card"><div class="row"><b>${b.d} · ${b.t}</b><span class="pill">${b.s}</span></div><div class="meta">${b.g} guests · ${b.n}</div></div>`).join("")}
+function go(v){
+ document.querySelectorAll(".view").forEach(x=>x.classList.remove("on"));
+ $("#v-"+(v==="home2"?"home":v)).classList.add("on");
+ document.querySelectorAll("#bn button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+ if(v==="orders"){renderOrders();refresh()}
+ if(v==="home2")document.getElementById("menu").scrollIntoView({behavior:"smooth"});else window.scrollTo({top:0,behavior:"smooth"})}
+$("#bn").onclick=e=>{const b=e.target.closest("button");if(b)go(b.dataset.v)};
+$("#modes").onclick=e=>{const b=e.target.closest("button");if(!b)return;st.mode=b.dataset.m;document.querySelectorAll("#modes button").forEach(x=>x.classList.toggle("on",x===b))};
+$("#chips").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;const f=b.dataset.f;st.f.has(f)?st.f.delete(f):st.f.add(f);render()};
+$("#q").oninput=e=>{st.q=e.target.value;render()};
+$("#bg").innerHTML=[1,2,3,4,5,6,7,8].map(n=>`<option>${n}</option>`).join("");
+$("#bd").min=new Date().toISOString().slice(0,10);
+render();load();
+let dp;addEventListener("beforeinstallprompt",e=>{e.preventDefault();dp=e;$("#instb").style.display="block"});
+$("#instb").onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;$("#instb").style.display="none"}};
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script></body></html>
