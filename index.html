@@ -86,7 +86,7 @@ footer svg{width:15px;height:15px;fill:#fff;vertical-align:-2px;margin-right:8px
 <section class="view on" id="v-home">
 <div class="modes" id="modes"><button class="on" data-m="Delivery">🛵 Delivery</button><button data-m="Takeaway">🛍️ Takeaway</button><button data-m="Dine-in">🍽️ Dine-in</button></div>
 <div class="banner"><h1>Pure veg. Fresh from the Maharani kitchen.</h1><p>Order directly from the restaurant. No middlemen.</p><button onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Order now</button></div>
-<div class="demo">Demo menu: dishes and prices below are sample data, not the restaurant's verified menu.</div>
+<div class="demo" id="demo">Demo menu: dishes and prices below are sample data, not the restaurant's verified menu.</div>
 <h2>What are you craving?</h2><div class="cats" id="cats"></div>
 <h2 id="menu">Menu</h2>
 <div class="chips" id="chips"><button class="chip" data-f="veg">Veg</button><button class="chip" data-f="pop">Popular</button><button class="chip" data-f="new">New</button><button class="chip" data-f="u150">Under ₹150</button></div>
@@ -122,9 +122,10 @@ footer svg{width:15px;height:15px;fill:#fff;vertical-align:-2px;margin-right:8px
 <div class="sheet" id="sheet" onclick="if(event.target===this)closeSheet()"><div class="panel" id="panel"></div></div>
 
 <script>
+const SB={url:"https://isjhwsccgonhjelbbxpi.supabase.co",key:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlzamh3c2NjZ29uaGplbGJieHBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyMDcyMjQsImV4cCI6MjEwODc4MzIyNH0.TAOZMdkqIv4ePNj4Ltf0VkLujIkgNdeMhgPD37bY9JM"}; // public anon key; safe because RLS protects data
 const CATS=[["🥞","South Indian"],["🍛","North Indian"],["🍜","Chinese"],["🍕","Pizza & Pasta"],["🍔","Burgers"],["🍚","Rice & Biryani"],["🥤","Beverages"],["🍰","Desserts"]];
 // Sample data only. Not the restaurant's verified menu or prices.
-const D=[
+let D=[
 ["Masala Dosa","South Indian","🥞",99,"Crisp rice crepe with spiced potato filling, sambar and chutneys.",15,1,1,0],
 ["Idli Sambar","South Indian","🍚",69,"Steamed rice cakes with sambar and coconut chutney.",10,1,0,0],
 ["Vada Sambar","South Indian","🍩",79,"Crisp lentil fritters dunked in sambar.",10,1,0,0],
@@ -157,8 +158,9 @@ function render(){
 function setCat(c){st.cat=st.cat===c?null:c;render();document.getElementById("menu").scrollIntoView({behavior:"smooth"})}
 function chg(id,d){const n=(st.cart[id]||0)+d;if(n<=0)delete st.cart[id];else st.cart[id]=Math.min(n,20);render();if($("#sheet").classList.contains("show"))openCart()}
 const sum=()=>Object.entries(st.cart).reduce((a,[i,n])=>a+D[i].p*n,0);
-const MIN=149;
-function bill(){const s=sum(),gst=Math.round(s*.05),fee=st.mode==="Delivery"&&s>0?(s>=500?0:30):0;return{s,gst,fee,t:s+gst+fee}}
+let MIN=149,FEE=30,FREE=500,LIVE=false;
+const H=()=>({apikey:SB.key,Authorization:"Bearer "+SB.key,"Content-Type":"application/json"});
+function bill(){const s=sum(),gst=Math.round(s*.05),fee=st.mode==="Delivery"&&s>0?(s>=FREE?0:FEE):0;return{s,gst,fee,t:s+gst+fee}}
 function openCart(){
  const b=bill(),items=Object.entries(st.cart);
  $("#panel").innerHTML=`<h2>Your cart</h2>`+(items.length?items.map(([i,n])=>`<div class="row"><span><span class="veg"></span>${D[i].n}</span><span><button class="chip" onclick="chg(${i},-1)" aria-label="Less">−</button> ${n} <button class="chip" onclick="chg(${i},1)" aria-label="More">+</button> ${inr(D[i].p*n)}</span></div>`).join("")+
@@ -168,25 +170,55 @@ function openCart(){
  <div class="row t"><span>To pay</span><span>${inr(b.t)}</span></div>
  <label for="cn">Name</label><input id="cn" autocomplete="name"><label for="cp">Phone</label><input id="cp" inputmode="tel" autocomplete="tel">
  ${st.mode==="Delivery"?`<label for="ca">Delivery address</label><textarea id="ca" rows="2" autocomplete="street-address"></textarea>`:""}
- ${st.mode==="Dine-in"?`<label for="ct">Table number</label><input id="ct" inputmode="numeric">`:""}
+ ${st.mode==="Dine-in"?(LIVE?`<p class="meta">Dine-in orders work by scanning the QR code on your table.</p>`:`<label for="ct">Table number</label><input id="ct" inputmode="numeric">`):""}
  <label for="cm">Payment</label><select id="cm"><option>Cash on ${st.mode==="Delivery"?"Delivery":"Pickup"}</option><option disabled>UPI / online (needs payment gateway)</option></select>
- <div class="err" id="cerr"></div><button class="cta" onclick="place()">Place order · ${inr(b.t)}</button><p class="meta" style="margin-top:8px">Demo mode: orders are not sent to the restaurant yet. Totals will be recalculated on the server once the backend is connected.</p>`
+ <div class="err" id="cerr"></div><button class="cta" onclick="place()">Place order · ${inr(b.t)}</button><p class="meta" style="margin-top:8px">${LIVE?"The final total is confirmed by the restaurant system when you place the order.":"Demo mode: orders are not sent to the restaurant."}</p>`
  :'<p class="meta">Your cart is empty. Add something tasty from the menu.</p>')+`<button class="chip" style="margin-top:12px" onclick="closeSheet()">Close</button>`;
  $("#sheet").classList.add("show")}
 function closeSheet(){$("#sheet").classList.remove("show")}
-function place(){
- const b=bill(),nm=$("#cn").value.trim(),ph=$("#cp").value.trim(),e=$("#cerr");
+const TYPE={"Delivery":"delivery","Takeaway":"takeaway","Dine-in":"dine_in"};
+async function place(){
+ const b=bill(),nm=$("#cn").value.trim(),ph=$("#cp").value.trim().replace(/[\s+-]|^91/g,""),e=$("#cerr"),tok=new URLSearchParams(location.search).get("t");
  if(b.s<MIN)return e.textContent="Minimum order is "+inr(MIN)+". Add "+inr(MIN-b.s)+" more.";
  if(nm.length<2)return e.textContent="Enter your name.";
- if(!/^[6-9]\d{9}$/.test(ph.replace(/[\s+-]|^91/g,"")))return e.textContent="Enter a valid 10-digit mobile number.";
+ if(!/^[6-9]\d{9}$/.test(ph))return e.textContent="Enter a valid 10-digit mobile number.";
  if(st.mode==="Delivery"&&$("#ca").value.trim().length<8)return e.textContent="Enter your full delivery address.";
- if(st.mode==="Dine-in"&&!/^\d{1,3}$/.test($("#ct").value.trim()))return e.textContent="Enter your table number.";
- const o={no:"MZ"+Date.now().toString().slice(-6),mode:st.mode,items:Object.entries(st.cart).map(([i,n])=>n+" × "+D[i].n),total:b.t,pay:"Pending (cash)",step:0,at:new Date().toLocaleString("en-IN")};
- st.orders.unshift(o);st.cart={};render();
- $("#panel").innerHTML=`<h2>Order placed ✅</h2><p>Order number <b>${o.no}</b></p><p class="meta" style="margin:8px 0">Estimated preparation time: 20–30 min (demo). Pay ${inr(o.total)} in cash.</p><button class="cta" onclick="closeSheet();go('orders')">Track order</button>`}
+ if(st.mode==="Dine-in"){if(LIVE&&!tok)return e.textContent="Scan the QR code on your table to order dine-in.";if(!LIVE&&!/^\d{1,3}$/.test($("#ct").value.trim()))return e.textContent="Enter your table number."}
+ const btn=$("#panel .cta");btn.disabled=true;btn.textContent="Placing order…";e.textContent="";
+ const o={mode:st.mode,items:Object.entries(st.cart).map(([i,n])=>n+" × "+D[i].n),total:b.t,pay:"Cash",step:0,at:new Date().toLocaleString("en-IN"),ph};
+ if(LIVE){
+  try{const r=await fetch(SB.url+"/rest/v1/rpc/place_order",{method:"POST",headers:H(),body:JSON.stringify({p_type:TYPE[st.mode],p_name:nm,p_phone:ph,p_address:st.mode==="Delivery"?$("#ca").value.trim():null,p_notes:$("#ci").value.trim()||null,p_table_token:st.mode==="Dine-in"?tok:null,p_coupon:null,p_items:Object.entries(st.cart).map(([i,n])=>({id:D[i].u,qty:n}))})});
+   const j=await r.json();if(!r.ok)throw new Error(j.message||"Order failed");
+   o.no=j.order_no;o.total=j.total_inr;o.live=true}
+  catch(x){btn.disabled=false;btn.textContent="Place order · "+inr(b.t);return e.textContent="Could not place the order: "+x.message}
+ }else o.no="MZ"+Date.now().toString().slice(-6);
+ st.orders.unshift(o);saveO();st.cart={};render();
+ $("#panel").innerHTML=`<h2>Order placed ✅</h2><p>Order number <b>${o.no}</b></p><p class="meta" style="margin:8px 0">Total ${inr(o.total)}. Pay in cash. ${o.live?"The restaurant has received your order.":"(Demo order, not sent.)"}</p><button class="cta" onclick="closeSheet();go('orders')">Track order</button>`}
+const SM={placed:0,accepted:1,preparing:2,ready:3,out_for_delivery:4,delivered:5};
+function saveO(){try{localStorage.setItem("mzo",JSON.stringify(st.orders.slice(0,20)))}catch(e){}}
+async function refresh(){
+ let ch=false;
+ for(const o of st.orders){if(!o.live||o.cancelled||o.step===5)continue;
+  try{const r=await fetch(SB.url+"/rest/v1/rpc/get_order_status",{method:"POST",headers:H(),body:JSON.stringify({p_order_no:o.no,p_phone:o.ph})});
+   const j=await r.json();const x=Array.isArray(j)?j[0]:null;
+   if(x){const n=x.status==="cancelled";const sp=n?o.step:SM[x.status];if(n!==!!o.cancelled||sp!==o.step){o.cancelled=n;o.step=sp;ch=true}}}catch(e){}}
+ if(ch){saveO();renderOrders()}}
+setInterval(()=>{if($("#v-orders").classList.contains("on"))refresh()},15000);
+async function load(){
+ try{
+  const [p,z]=await Promise.all([fetch(SB.url+"/rest/v1/products?select=id,name,description,price_inr,available,prep_minutes,is_demo,categories(name)&order=name",{headers:H()}),fetch(SB.url+"/rest/v1/delivery_zones?select=fee_inr,min_order_inr",{headers:H()})]);
+  if(!p.ok)throw 0;const rows=await p.json();if(!rows.length)throw 0;
+  const em=Object.fromEntries(CATS.map(c=>[c[1],c[0]]));
+  D=rows.map((r,i)=>{const c=r.categories&&r.categories.name||"Other";return{id:i,u:r.id,n:r.name,c,e:em[c]||"🍽️",p:r.price_inr,d:r.description||"",t:r.prep_minutes||15,a:r.available,pop:false,nw:false,demo:r.is_demo}});
+  const zs=z.ok?await z.json():[];if(zs.length){FEE=Math.min(...zs.map(x=>x.fee_inr));MIN=Math.min(...zs.map(x=>x.min_order_inr));FREE=1e9}
+  LIVE=true;st.f.clear();document.querySelectorAll("#chips [data-f=pop],#chips [data-f=new]").forEach(x=>x.remove());
+  const dm=$("#demo");if(D.some(x=>x.demo))dm.textContent="Demo menu from the database: dishes and prices are sample data, not the restaurant's verified menu.";else dm.style.display="none";
+ }catch(e){$("#demo").textContent+=" Database not connected, showing offline demo."}
+ render()}
+try{st.orders=JSON.parse(localStorage.getItem("mzo")||"[]")}catch(e){}
 const STEPS=["Order Placed","Accepted","Preparing","Ready for Pickup","Out for Delivery","Delivered"];
 function renderOrders(){
- $("#orders").innerHTML=st.orders.length?st.orders.map(o=>`<div class="card"><div class="row"><b>#${o.no}</b><span class="pill">${STEPS[o.step]}</span></div><div class="meta">${o.mode} · ${o.at}</div><div class="desc">${o.items.join(", ")}</div><div class="row t"><span>Total</span><span>${inr(o.total)}</span></div><div class="meta">Payment: ${o.pay}</div><div class="steps">${STEPS.map((_,i)=>`<i class="${i<=o.step?"d":""}"></i>`).join("")}</div></div>`).join(""):'<div class="card"><p class="meta">No orders yet. Your orders will show up here.</p><button class="cta" onclick="go(\'home\')">Browse menu</button></div>'}
+ $("#orders").innerHTML=st.orders.length?st.orders.map(o=>`<div class="card"><div class="row"><b>#${o.no}</b><span class="pill">${o.cancelled?"Cancelled":STEPS[o.step]}</span></div><div class="meta">${o.mode} · ${o.at}</div><div class="desc">${o.items.join(", ")}</div><div class="row t"><span>Total</span><span>${inr(o.total)}</span></div><div class="meta">Payment: ${o.pay}</div><div class="steps">${STEPS.map((_,i)=>`<i class="${i<=o.step?"d":""}"></i>`).join("")}</div></div>`).join(""):'<div class="card"><p class="meta">No orders yet. Your orders will show up here.</p><button class="cta" onclick="go(\'home\')">Browse menu</button></div>'}
 function book(){
  const d=$("#bd").value,n=$("#bn").value.trim(),p=$("#bp").value.replace(/\D/g,"").slice(-10),e=$("#berr");
  if(!d||d<new Date().toISOString().slice(0,10))return e.textContent="Pick today or a future date.";
@@ -199,7 +231,7 @@ function go(v){
  document.querySelectorAll(".view").forEach(x=>x.classList.remove("on"));
  $("#v-"+(v==="home2"?"home":v)).classList.add("on");
  document.querySelectorAll("#bn button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
- if(v==="orders")renderOrders();
+ if(v==="orders"){renderOrders();refresh()}
  if(v==="home2")document.getElementById("menu").scrollIntoView({behavior:"smooth"});else window.scrollTo({top:0,behavior:"smooth"})}
 $("#bn").onclick=e=>{const b=e.target.closest("button");if(b)go(b.dataset.v)};
 $("#modes").onclick=e=>{const b=e.target.closest("button");if(!b)return;st.mode=b.dataset.m;document.querySelectorAll("#modes button").forEach(x=>x.classList.toggle("on",x===b))};
@@ -207,5 +239,5 @@ $("#chips").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;const f=b
 $("#q").oninput=e=>{st.q=e.target.value;render()};
 $("#bg").innerHTML=[1,2,3,4,5,6,7,8].map(n=>`<option>${n}</option>`).join("");
 $("#bd").min=new Date().toISOString().slice(0,10);
-render();
+render();load();
 </script></body></html>
